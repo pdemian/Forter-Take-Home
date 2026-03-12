@@ -1,0 +1,7 @@
+{
+    "transaction_id": charge,
+    "reason": reason,
+    "currency": currency,
+    "amount": amount / 100,
+    "provider": "stripe"
+}

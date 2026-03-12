@@ -26,9 +26,13 @@
     "strict": true,
     "jsx": "react-jsx",
     "noImplicitAny": false,
-    "isolatedModules": false,
+    "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
     "skipLibCheck": true,
-  }
+    "esModuleInterop": true,
+  },
+  "exclude": [
+    "src/tests"
+  ]
 }

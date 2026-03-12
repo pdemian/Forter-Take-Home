@@ -5,7 +5,7 @@ import { readFileSync } from 'fs';
 describe('POST /webhook', () => {
     it('should transform Stripe chargeback webhook into Forter schema', async () => {
         // example taken from https://docs.stripe.com/api/disputes/object
-        const payload = JSON.parse(readFileSync('stripe-chargeback.json', 'utf-8'));
+        const payload = JSON.parse(readFileSync(__dirname + '/test-data/stripe-chargeback.json', 'utf-8'));
 
         const response = await request(app)
             .post('/webhook')
