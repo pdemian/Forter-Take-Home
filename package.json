@@ -1,0 +1,43 @@
+{
+  "name": "forter-take-home",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pdemian/Forter-Take-Home.git"
+  },
+  "author": "Patrick Demian",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/pdemian/Forter-Take-Home/issues"
+  },
+  "homepage": "https://github.com/pdemian/Forter-Take-Home#readme",
+  "devDependencies": {
+    "@types/body-parser": "^1.19.6",
+    "@types/express": "^5.0.6",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^25.4.0",
+    "@types/supertest": "^7.2.0",
+    "@typescript-eslint/eslint-plugin": "^8.57.0",
+    "@typescript-eslint/parser": "^8.57.0",
+    "eslint": "^10.0.3",
+    "jest": "^30.3.0",
+    "supertest": "^7.2.2",
+    "ts-jest": "^29.4.6",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "ajv": "^8.18.0",
+    "body-parser": "^2.2.2",
+    "express": "^5.2.1",
+    "jsonata": "^2.1.0"
+  }
+}
