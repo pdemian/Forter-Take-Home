@@ -1,15 +1,14 @@
 {
   "name": "forter-take-home",
   "version": "1.0.0",
-  "description": "",
+  "description": "Forter Take Home assignment",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
     "postbuild": "cp -r src/services/providers dist/services/providers",
     "start": "node dist/index.js",
     "dev": "ts-node-dev --respawn src/index.ts",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
+    "lint": "eslint . --fix",
     "test": "jest",
     "test:unit": "jest .unit.test.ts",
     "test:integration": "jest .integration.test.ts"

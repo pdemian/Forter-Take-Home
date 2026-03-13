@@ -3,10 +3,10 @@ import { WebhookRequestBody, WebhookResponse } from '../types';
 import { MapperService } from '../services/mapperservice';
 import { BadProviderMapError, NoProviderFoundError } from '../errors';
 
-const router = Router();
-const mapperService = new MapperService();
+export default function createWebhookRouter(mapperService: MapperService) {
+    const router = Router();
 
-router.post('/{:provider}', async (req: Request<{ provider?: string }, {}, WebhookRequestBody>, res: Response<WebhookResponse | { error: string }>) => {
+    router.post('/{:provider}', async (req: Request<{ provider?: string }, object, WebhookRequestBody>, res: Response<WebhookResponse | { error: string }>) => {
     try {
         // Default to stripe if no provider is specified
         // To be changed later to support multiple providers
@@ -32,6 +32,7 @@ router.post('/{:provider}', async (req: Request<{ provider?: string }, {}, Webho
         console.error('Unexpected error:', err);
         res.status(500).json({ error: 'Internal server error' });
     }
-});
+    });
 
-export default router;
+    return router;
+}

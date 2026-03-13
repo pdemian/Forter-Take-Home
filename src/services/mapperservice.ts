@@ -1,14 +1,19 @@
 
 import { ForterChargeback } from '../types';
 import jsonata from 'jsonata';
-import { readFileSync } from 'fs';
-import { validateForterChargeback } from '../utils/forterschemavalidator';
+import { readFile } from 'fs/promises';
+import { validateForterChargeback, validateProviderName } from '../utils/schemavalidator';
 import { BadProviderMapError, NoProviderFoundError } from '../errors';
 
 export class MapperService {
+    // In future iterations, this should be an LRU cache or stored in Redis to avoid unbounded memory usage
     private providerMap: Map<string, jsonata.Expression> = new Map();
 
     public async getProviderMap(provider: string) {
+        if (!validateProviderName(provider)) {
+            throw new NoProviderFoundError(`Invalid provider name format: ${provider}`);
+        }
+
         if (this.providerMap.has(provider)) {
             return this.providerMap.get(provider)!;
         }
@@ -16,7 +21,7 @@ export class MapperService {
         let fileContents: string;
 
         try {
-            fileContents = readFileSync(`${__dirname}/providers/${provider}.jsonata`, "utf-8");
+            fileContents = await readFile(`${__dirname}/providers/${provider}.jsonata`, "utf-8");
         } catch {
             throw new NoProviderFoundError(`No provider map found for ${provider}`);
         }

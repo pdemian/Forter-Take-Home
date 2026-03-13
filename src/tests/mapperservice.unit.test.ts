@@ -2,30 +2,7 @@ import { MapperService } from '../services/mapperservice';
 import { NoProviderFoundError, BadProviderMapError } from '../errors';
 import { readFileSync } from 'fs';
 import path from 'path';
-
-// `var` is hoisted to the top of the module scope (unlike `const`/`let`),
-// so it is safely accessible inside the jest.mock factory even after hoisting.
-// eslint-disable-next-line no-var
-var readFileSyncInterceptor: ((filePath: string) => string | null) | null = null;
-
-jest.mock('fs', () => {
-    const actual = jest.requireActual<typeof import('fs')>('fs');
-    return {
-        ...actual,
-        readFileSync: (filePath: unknown, encoding?: unknown) => {
-            if (typeof filePath === 'string' && readFileSyncInterceptor) {
-                const intercepted = readFileSyncInterceptor(filePath);
-                if (intercepted !== null) {
-                    return intercepted;
-                }
-            }
-            return actual.readFileSync(
-                filePath as Parameters<typeof actual.readFileSync>[0],
-                encoding as BufferEncoding
-            );
-        },
-    };
-});
+import fs from 'fs/promises';
 
 // Resolve paths relative to the project root
 const projectRoot = path.resolve(__dirname, '../..');
@@ -39,7 +16,7 @@ describe('MapperService.mapWebhook', () => {
     let mapperService: MapperService;
 
     beforeEach(() => {
-        readFileSyncInterceptor = null;
+        jest.resetAllMocks();
         mapperService = new MapperService();
     });
 
@@ -70,8 +47,10 @@ describe('MapperService.mapWebhook', () => {
 
     it('should throw BadProviderMapError when jsonata mapping is invalid', async () => {
         // Return invalid jsonata syntax for any .jsonata provider file read
-        readFileSyncInterceptor = (filePath) =>
-            filePath.endsWith('.jsonata') ? '{{{{ this is not valid jsonata }}}}' : null;
+        jest.mock('fs/promises');
+        const readFileSpy = jest.spyOn(fs, 'readFile');
+
+        readFileSpy.mockResolvedValue('{{{{ this is not valid jsonata }}}}');
 
         // Use a fresh instance so the provider map cache is empty
         const freshService = new MapperService();
