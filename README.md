@@ -42,7 +42,7 @@ Alongside self-serve endpoints, we can add testing capabilities via a `POST /tes
 Similar to the JSONata exerciser, we can also include a simple in-browser playground UI to allow providers to write or edit and validate their mappings. 
 
 ### Safety and Maintainability
-JSONata is declarative and runs in a pure expression engine, no side effects or code execution (JSONata does not have an `eval`). The returned schema is validated to ensure that the mappings are valid. 
+JSONata is declarative and runs in a pure expression engine, no side effects or external code execution (JSONata does not have an `eval`). A timeout can be added to ensure that we won't be impacted by a long running mapping. The returned schema is validated to ensure that the mappings are valid. 
 
 Currently, reading the provider mapping from the filesystem poses a potential security risk. A regex check was implemented to prevent directory traversal by rejecting special characters. Moving to a database or S3 bucket alongside an allowlist of onboarded providers would further mitigate this risk without requiring redeploys.
 
